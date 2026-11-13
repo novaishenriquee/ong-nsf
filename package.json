@@ -1,0 +1,9 @@
+{
+  "name": "ong-nsf",
+  "version": "1.0.0",
+  "description": "Modelagem de dados da Organização Social Nossa Senhora de Fátima",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}
