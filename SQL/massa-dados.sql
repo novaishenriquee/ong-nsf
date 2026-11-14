@@ -62,7 +62,7 @@ DELETE FROM profissional_responsavel;
 --   A13 acessos de voluntário e da presidência a dados sensíveis/sigilosos (RN02, RN17)
 --
 -- Inserir os dados 2 vezes dá erro de chave duplicada — é o esperado.
--- Para recarregar só os dados, use docs/massa-dados.sql.
+-- Para recarregar só os dados, use SQL/massa-dados.sql.
 
 -- ---------------------------------------------------------------------
 -- orgao_parceiro (1.11) — doadores e rede de encaminhamento (sem CNPJ: dados fictícios)

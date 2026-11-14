@@ -12,9 +12,9 @@
 --   7. Consultas gerenciais (G01–G13) e de auditoria (A01–A13)
 --
 -- Rode o arquivo inteiro de uma vez (MySQL Workbench: abrir e executar ⚡;
--- terminal: mysql -u root -p --default-character-set=utf8mb4 < docs/script.sql).
+-- terminal: mysql -u root -p --default-character-set=utf8mb4 < SQL/script.sql).
 -- Ele apaga e recria o banco, então pode ser rodado quantas vezes quiser.
--- Para recarregar só os dados, use docs/massa-dados.sql.
+-- Para recarregar só os dados, use SQL/massa-dados.sql.
 -- =====================================================================
 
 -- =====================================================================
@@ -628,7 +628,7 @@ ORDER BY table_type, table_name;
 --   A13 acessos de voluntário e da presidência a dados sensíveis/sigilosos (RN02, RN17)
 --
 -- Inserir os dados 2 vezes dá erro de chave duplicada — é o esperado.
--- Para recarregar só os dados, use docs/massa-dados.sql.
+-- Para recarregar só os dados, use SQL/massa-dados.sql.
 -- =====================================================================
 
 -- ---------------------------------------------------------------------

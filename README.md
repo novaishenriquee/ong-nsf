@@ -25,9 +25,9 @@ Modelagem de Banco de Dados · Turmas de 2026-2 · Prof. Cid Andrade
 
 | Parte | Seção | Arquivo separado |
 | :--- | :--- | :--- |
-| 1. A organização e o modelo conceitual | [1.1 Revisão da organização e do DER](#11-a-organização-e-o-modelo-conceitual-revisão) | [`levantamento/levantamento.md`](levantamento/levantamento.md) · [`diagrama-der.png`](diagrama-der.png) |
-| 2. Do conceitual ao relacional | [1.2 Conversão](#12-conversão-do-conceitual-para-o-lógico) · [1.3 Dicionário](#13-dicionário-de-dados) · [1.4 Normalização](#14-normalização) · [1.5 Justificativas](#15-justificativas) · [1.6 BI e IA](#16-bi-e-ia) · [2. Modelo lógico](#2-modelo-lógico) | [`dicionario.md`](dicionario.md) · [`modelo-logico.png`](modelo-logico.png) |
-| 3. Implementação e repositório | [3. Script SQL](#3-script-sql) · [4. Massa de dados](#4-massa-de-dados) · [5. Repositório](#5-repositório) · [6. Uso de IA](#6-uso-de-ia) | [`docs/script.sql`](docs/script.sql) · [`docs/massa-dados.sql`](docs/massa-dados.sql) |
+| 1. A organização e o modelo conceitual | [1.1 Revisão da organização e do DER](#11-a-organização-e-o-modelo-conceitual-revisão) | [`levantamento/levantamento.md`](levantamento/levantamento.md) · [`diagrama-der.jpg`](diagrama-der.jpg) |
+| 2. Do conceitual ao relacional | [1.2 Conversão](#12-conversão-do-conceitual-para-o-lógico) · [1.3 Dicionário](#13-dicionário-de-dados) · [1.4 Normalização](#14-normalização) · [1.5 Justificativas](#15-justificativas) · [1.6 BI e IA](#16-bi-e-ia) · [2. Modelo lógico](#2-modelo-lógico) | [`dicionario.md`](dicionario.md) · [`modelo-logico.jpg`](modelo-logico.jpg) |
+| 3. Implementação e repositório | [3. Script SQL](#3-script-sql) · [4. Massa de dados](#4-massa-de-dados) · [5. Repositório](#5-repositório) · [6. Uso de IA](#6-uso-de-ia) | [`SQL/script.sql`](SQL/script.sql) · [`SQL/massa-dados.sql`](SQL/massa-dados.sql) |
 | 4. Apresentação final | [7. Pitch de 8 minutos](#7-apresentação-pitch-de-8-minutos) | |
 
 ---
@@ -300,7 +300,7 @@ O grupo comparou o levantamento com o que é típico de uma organização socioa
 
 Software: **Graphviz**, gerado por script a partir das entidades do modelo, na **notação do brModelo**: entidade em retângulo com os atributos listados e o **identificador sublinhado**; relacionamento em losango; atributos do relacionamento em círculo; cardinalidade `(mín, máx)` junto de cada entidade; **sem chaves estrangeiras** (elas são do modelo lógico). Não há generalização/especialização (justificativa na [seção 1.2](#12-conversão-do-conceitual-para-o-lógico)).
 
-![DER conceitual na notação do brModelo](diagrama-der.png)
+![DER conceitual na notação do brModelo](diagrama-der.jpg)
 
 ### 1.1.10 Resposta a cada apontamento da E1
 
@@ -421,7 +421,7 @@ Para cada relação, duas perguntas: **o mínimo** ("um lado pode existir sem o 
 
 ### 1.5.3 Restrições e regras de negócio
 
-No [`docs/script.sql`](docs/script.sql), cada constraint traz no comentário o código da regra que garante.
+No [`SQL/script.sql`](SQL/script.sql), cada constraint traz no comentário o código da regra que garante.
 
 | Restrição | Tipo | Regra |
 | :--- | :---: | :---: |
@@ -515,9 +515,9 @@ Qualquer modelo de IA usaria só dados anonimizados ou com base legal, e a decis
 
 ## 2. Modelo lógico
 
-Gerado a partir do [`docs/script.sql`](docs/script.sql), na **notação do brModelo**, para o desenho nunca divergir do banco.
+Gerado a partir do [`SQL/script.sql`](SQL/script.sql), na **notação do brModelo**, para o desenho nunca divergir do banco.
 
-![Modelo lógico na notação do brModelo](modelo-logico.png)
+![Modelo lógico na notação do brModelo](modelo-logico.jpg)
 
 | Elemento | Como aparece | No diagrama |
 | :--- | :--- | :--- |
@@ -526,13 +526,13 @@ Gerado a partir do [`docs/script.sql`](docs/script.sql), na **notação do brMod
 | Chave primária e estrangeira | Marcas `PK`, `FK` ou `PK, FK` | `id_evento` em `participacao_evento`: `PK, FK` |
 | Ligação | Linha com `(mín, máx)` em cada ponta | `beneficiario (1,1)` — `(0,n) atendimento` |
 
-**O que não cabe no diagrama:** `NOT NULL`, `UNIQUE`, `CHECK` e `DEFAULT` não aparecem no brModelo. Estão documentados no [dicionário](dicionario.md) e implementados no [script](docs/script.sql), seção 3.
+**O que não cabe no diagrama:** `NOT NULL`, `UNIQUE`, `CHECK` e `DEFAULT` não aparecem no brModelo. Estão documentados no [dicionário](dicionario.md) e implementados no [script](SQL/script.sql), seção 3.
 
 ---
 
 ## 3. Script SQL
 
-Um único arquivo, [`docs/script.sql`](docs/script.sql), para **MySQL 8.0**, nesta ordem:
+Um único arquivo, [`SQL/script.sql`](SQL/script.sql), para **MySQL 8.0**, nesta ordem:
 
 | # | Seção do script | Conteúdo |
 | :---: | :--- | :--- |
@@ -556,10 +556,10 @@ SELECT ...
 SELECT ...
 ```
 
-**Como rodar:** no MySQL Workbench, abra o `docs/script.sql` e execute tudo (⚡). No terminal:
+**Como rodar:** no MySQL Workbench, abra o `SQL/script.sql` e execute tudo (⚡). No terminal:
 
 ```bash
-mysql -u root -p --default-character-set=utf8mb4 < docs/script.sql
+mysql -u root -p --default-character-set=utf8mb4 < SQL/script.sql
 ```
 
 O GitHub Actions roda o script num **MySQL 8.0 limpo a cada push** (job `banco`) e confere a contagem de registros, o saldo do estoque e o trigger. O resumo da última execução fica na branch `ci-resultado`.
@@ -568,7 +568,7 @@ O GitHub Actions roda o script num **MySQL 8.0 limpo a cada push** (job `banco`)
 
 ## 4. Massa de dados
 
-A massa está na seção 4 do `script.sql` e, separada, em [`docs/massa-dados.sql`](docs/massa-dados.sql), que apaga os dados e insere de novo sem recriar o banco (útil depois dos UPDATE e DELETE da seção 6).
+A massa está na seção 4 do `script.sql` e, separada, em [`SQL/massa-dados.sql`](SQL/massa-dados.sql), que apaga os dados e insere de novo sem recriar o banco (útil depois dos UPDATE e DELETE da seção 6).
 
 **Fictícia e coerente.** Nenhum nome, CPF, NIS, RG, endereço ou telefone é real. O período simulado é de **01/07 a 31/10/2026** (dois bimestres do lote da Prefeitura), e o volume segue o porte da seção 1.1.1:
 
@@ -618,21 +618,19 @@ A massa está na seção 4 do `script.sql` e, separada, em [`docs/massa-dados.sq
 
 ```
 .
-├── README.md               ← este relatório técnico
-├── dicionario.md           ← dicionário de dados (um único .md)
-├── diagrama-der.png        ← DER revisado (notação do brModelo)
-├── modelo-logico.png       ← modelo lógico (notação do brModelo)
+├── SQL/
+│   ├── script.sql          ← script completo (seções 1 a 7)
+│   └── massa-dados.sql     ← massa de dados separada
 ├── levantamento/
 │   ├── levantamento.md     ← relato da visita, escrito pelo grupo
 │   └── visita-ong-01..05.jpg
-├── docs/
-│   ├── script.sql          ← script completo (seções 1 a 7)
-│   └── massa-dados.sql     ← massa de dados separada
-├── docs.test.js            ← testes automáticos da documentação
-└── .github/workflows/      ← testes + MySQL 8.0 a cada push
+├── README.md               ← este relatório técnico
+├── diagrama-der.jpg        ← DER revisado (notação do brModelo)
+├── dicionario.md           ← dicionário de dados (um único .md)
+└── modelo-logico.jpg       ← modelo lógico (notação do brModelo)
 ```
 
-**Testes automáticos** (Node 20 ou mais novo): `npm test`. Conferem se os arquivos existem, se o dicionário tem as 19 tabelas do script, se links e imagens funcionam, se as 26 consultas existem com cabeçalho e se não há dado pessoal fora do contato exigido.
+**Testes automáticos:** ficam em `.github/` e rodam no GitHub Actions a cada push: os testes da documentação (`node --test .github/tests/docs.test.js`, Node 20 ou mais novo) conferem se os arquivos existem, se o dicionário tem as 19 tabelas do script, se links e imagens funcionam, se as 26 consultas existem com cabeçalho e se não há dado pessoal fora do contato exigido; o job `banco` roda o `SQL/script.sql` e o `SQL/massa-dados.sql` num MySQL 8.0 limpo.
 
 **Fluxo de trabalho:** issue → branch a partir da `main` → commits de cada integrante com a própria conta → pull request → testes verdes → merge. O histórico de commits deve ser equilibrado entre os integrantes ao longo do tempo.
 
@@ -672,7 +670,7 @@ A massa está na seção 4 do `script.sql` e, separada, em [`docs/massa-dados.sq
 | :---: | :--- | :---: | :--- |
 | 1 | O problema da organização | 1 min | 250 famílias, 150 cestas a cada 2 meses, tudo em papel (P1 a P10) |
 | 2 | A solução proposta | 1 min | Banco único com 19 tabelas cobrindo os 13 processos |
-| 3 | O modelo lógico | 1 min 30 | `modelo-logico.png`: beneficiário no centro, estoque e eventos |
+| 3 | O modelo lógico | 1 min 30 | `modelo-logico.jpg`: beneficiário no centro, estoque e eventos |
 | 4 | O SQL rodando | 1 min | `script.sql` no Workbench: tabelas criadas e conferência de registros |
 | 5 | Consultas gerenciais e de auditoria | 2 min | G02 (lote distribuído), G11 (estoque), A10 (item vencido), A13 (acesso indevido) |
 | 6 | Potencial para BI e IA | 1 min | KPIs da seção 1.6.2 e previsão de demanda de cestas |
