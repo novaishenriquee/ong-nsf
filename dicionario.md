@@ -2,9 +2,9 @@
 
 **Organização Social Nossa Senhora de Fátima — banco `ong_nossa_senhora_fatima`**
 
-Versão revisada após a correção da Entrega 1. Cobre as **19 tabelas** do script [`sql/01_estrutura.sql`](sql/01_estrutura.sql), com tipo físico, chaves, índices, obrigatoriedade, classificação LGPD e a regra de negócio de cada atributo. As regras citadas (RN01 a RN18) estão descritas na seção 3 do [README](../README.md#3-regras-de-negócio-rn).
+Versão revisada após a correção da Entrega 1. Cobre as **19 tabelas** do script [`docs/script.sql`](docs/script.sql), com tipo físico, chaves, índices, obrigatoriedade, classificação LGPD e a regra de negócio de cada atributo. As regras citadas (RN01 a RN18) estão descritas na seção 1.1.7 do [README](README.md#117-regras-de-negócio-rn).
 
-> 🔒 Todos os exemplos e a massa de dados são fictícios. Nenhum dado pessoal real de beneficiários, voluntários ou funcionários está neste repositório.
+> 🔒 Todos os exemplos e a massa de dados são fictícios: nenhum dado pessoal real de beneficiários, voluntários ou funcionários aparece aqui ou no script.
 
 ## Sumário
 
@@ -45,9 +45,9 @@ Versão revisada após a correção da Entrega 1. Cobre as **19 tabelas** do scr
 
 | Modelo | Notação | Onde está |
 | :--- | :--- | :--- |
-| Conceitual (DER) | **Peter Chen**: entidade em retângulo, relacionamento em losango e cardinalidade (mín., máx.) em cada ponta, como `(1,1)` e `(0,n)` | [`imagens/der-conceitual.png`](imagens/der-conceitual.png) |
-| Lógico (relacional) | **Pé de galinha** (*crow's foot*): tabelas com colunas, PK e FK; o traço indica "um" e o pé de galinha indica "muitos"; o círculo indica "zero" (opcional) | [`imagens/modelo-logico.png`](imagens/modelo-logico.png) |
-| Físico | Script SQL para MySQL 8.0 | [`sql/01_estrutura.sql`](sql/01_estrutura.sql) |
+| Conceitual (DER) | **brModelo**: entidade em retângulo com os atributos listados e o identificador sublinhado; relacionamento em losango; atributo do relacionamento em círculo; cardinalidade `(mín, máx)` junto de cada entidade, como `(1,1)` e `(0,n)`; sem chaves estrangeiras | [`diagrama-der.png`](diagrama-der.png) |
+| Lógico (relacional) | **brModelo**: tabela com o nome no topo e uma linha por coluna (nome à esquerda; marcas `PK`, `FK` ou `PK, FK` e tipo à direita); ligação com `(mín, máx)` em cada ponta | [`modelo-logico.png`](modelo-logico.png) |
+| Físico | Script SQL para MySQL 8.0 (`NOT NULL`, `UNIQUE`, `CHECK` e `DEFAULT`, que não aparecem nos diagramas, estão nas tabelas abaixo e na seção 3 do script) | [`docs/script.sql`](docs/script.sql) |
 
 Leitura da cardinalidade `A (1,1) — R — (0,n) B`: cada B se liga a exatamente um A, e cada A pode ter de zero a muitos B. No modelo lógico, a FK fica sempre do lado `(0,n)`.
 
@@ -88,7 +88,7 @@ A consulta **A13** lista todo acesso a dado sensível ou sigiloso feito por quem
 
 | Dados | Prazo | Contagem | O que acontece no fim |
 | :--- | :--- | :--- | :--- |
-| Cadastro, família, referências, trabalho, atendimentos, encaminhamentos e PIA | 5 anos | Do último atendimento | Anonimização (seção 6.3 do `03_consultas.sql`): sai a identificação direta e a data de nascimento fica só com o ano. O histórico continua nos relatórios sem identificar a pessoa |
+| Cadastro, família, referências, trabalho, atendimentos, encaminhamentos e PIA | 5 anos | Do último atendimento | Anonimização (seção 6.3 do `docs/script.sql`): sai a identificação direta e a data de nascimento fica só com o ano. O histórico continua nos relatórios sem identificar a pessoa |
 | Pedido do titular | Imediato | Do pedido | Anonimização, salvo obrigação legal de guarda |
 | Entregas, doações e estoque | 5 anos | Da data do registro | Mantidos para a prestação de contas (RN08) |
 | Eventos e participação | 5 anos | Da data do evento | Participação anonimizada junto com o cadastro do beneficiário |
@@ -140,7 +140,7 @@ Além do índice automático de cada PK e UNIQUE, o script cria índices B-Tree 
 | 8 | Relatórios e prestação de contas | Só leitura (G01 a G13, A01 a A13) | Admin e técnico |
 | 9 | Fim do ciclo: 5 anos sem atendimento ou pedido do titular | `beneficiario` e tabelas filhas (anonimização) | Técnico |
 
-O fluxograma destas etapas está no [README, seção 0](../README.md#0-processos-de-negócio).
+Os processos (PR01 a PR13) e os fluxogramas destas etapas estão no [README, seção 1.1.5](README.md#115-processos-de-negócio).
 
 ---
 
@@ -426,4 +426,4 @@ O fluxograma destas etapas está no [README, seção 0](../README.md#0-processos
 | R22 | PROFISSIONAL — gera — LOG_ACESSO | (0,1) : (0,n) | Cada log tem um profissional ou um voluntário | `log_acesso.id_profissional` |
 | R23 | VOLUNTÁRIO — gera — LOG_ACESSO | (0,1) : (0,n) | Idem | `log_acesso.id_voluntario` |
 
-A justificativa de cada cardinalidade está no [README, seção 6.2](../README.md#62-justificativa-das-cardinalidades).
+A conversão de cada relação está no [README, seção 1.2](README.md#12-conversão-do-conceitual-para-o-lógico) e a justificativa de cada cardinalidade, na [seção 1.5.2](README.md#152-chaves-estrangeiras-e-cardinalidades).
