@@ -1,0 +1,436 @@
++----------------------------+------------+
+| objeto                     | tipo       |
++----------------------------+------------+
+| atendimento                | BASE TABLE |
+| beneficiario               | BASE TABLE |
+| composicao_familiar        | BASE TABLE |
+| encaminhamento_atendimento | BASE TABLE |
+| entrega_cesta              | BASE TABLE |
+| evento                     | BASE TABLE |
+| item_recebimento           | BASE TABLE |
+| log_acesso                 | BASE TABLE |
+| orgao_parceiro             | BASE TABLE |
+| participacao_evento        | BASE TABLE |
+| pia                        | BASE TABLE |
+| produto                    | BASE TABLE |
+| profissional_responsavel   | BASE TABLE |
+| recebimento_doacao         | BASE TABLE |
+| referencia_familiar        | BASE TABLE |
+| saida_estoque              | BASE TABLE |
+| trabalho                   | BASE TABLE |
+| voluntario                 | BASE TABLE |
+| voluntario_evento          | BASE TABLE |
+| v_estoque_produto          | VIEW       |
++----------------------------+------------+
++----------------------------+-----------+----------+
+| tabela                     | registros | esperado |
++----------------------------+-----------+----------+
+| profissional_responsavel   |         4 |        4 |
+| orgao_parceiro             |        16 |       16 |
+| beneficiario               |       250 |      250 |
+| trabalho                   |       242 |      242 |
+| composicao_familiar        |       509 |      509 |
+| referencia_familiar        |       261 |      261 |
+| atendimento                |       727 |      727 |
+| encaminhamento_atendimento |       233 |      233 |
+| pia                        |        42 |       42 |
+| produto                    |        13 |       13 |
+| recebimento_doacao         |        19 |       19 |
+| item_recebimento           |        51 |       51 |
+| entrega_cesta              |       237 |      237 |
+| saida_estoque              |       106 |      106 |
+| voluntario                 |         8 |        8 |
+| evento                     |         8 |        8 |
+| participacao_evento        |       356 |      356 |
+| voluntario_evento          |        21 |       21 |
+| log_acesso                 |       209 |      209 |
++----------------------------+-----------+----------+
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
+| id_atendimento | beneficiario              | profissional         | registro_profissional | demanda_inicial                                                                            |
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
+|            708 | Fernanda Carvalho Ribeiro | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            709 | Priscila Santana Pereira  | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: dificuldade de acesso a consulta médica e medicamentos                            |
+|            710 | Daniel Brito Costa        | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            711 | Priscila Batista Moreira  | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: desemprego; busca recolocação profissional                                        |
+|            712 | Manoel Silva Carvalho     | Fernanda Souza Alves | CRESS-SP 90003        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            713 | Thiago Brito Vieira       | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            714 | Daniela Barbosa Moreira   | Carlos Eduardo Lima  | CRP 06/90002          | Retorno: sofrimento psíquico; solicita apoio psicológico                                   |
+|            715 | Lúcia Fernandes Ribeiro   | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: busca orientação sobre cadúnico e programas de transferência de renda             |
+|            716 | Cristiane da Rocha Ramos  | Fernanda Souza Alves | CRESS-SP 90003        | Triagem inicial: Busca orientação sobre CadÚnico e programas de transferência de renda     |
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
++---------------------------+-------------+---------------------------+------------+-------+-----------------+
+| titular                   | vinculo     | nome                      | parentesco | idade | telefone        |
++---------------------------+-------------+---------------------------+------------+-------+-----------------+
+| Fernanda Carvalho Ribeiro | Mora junto  | Ágatha Ribeiro            | Filha      |    10 | NULL            |
+| Fernanda Carvalho Ribeiro | Mora junto  | Sophia Ribeiro            | Filha      |     8 | NULL            |
+| Fernanda Carvalho Ribeiro | Referência  | Francisca Ribeiro Pereira | Vizinha    |  NULL | (11) 99017-6225 |
+| Fernanda Carvalho Ribeiro | Referência  | Gabriela Almeida Pereira  | Irmã       |  NULL | (11) 91815-2360 |
++---------------------------+-------------+---------------------------+------------+-------+-----------------+
++--------------+----------------------------+-------------------+-------------------------------------+------------+----------------------+----------------------+
+| data_entrega | beneficiario               | quantidade_cestas | itens_adicionais                    | observacao | situacao_ocupacional | registrado_por       |
++--------------+----------------------------+-------------------+-------------------------------------+------------+----------------------+----------------------+
+| 2026-10-26   | Camila Batista Souza       |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-26   | Carlos da Silva Nascimento |                 1 | NULL                                | NULL       | Desempregado         | Fernanda Souza Alves |
+| 2026-10-26   | Cícero Pereira Gomes       |                 2 | NULL                                | NULL       | Desempregado         | Fernanda Souza Alves |
+| 2026-10-26   | João Araújo Martins        |                 1 | 3 kg Hortifrúti                     | NULL       | Empregado (CLT)      | Fernanda Souza Alves |
+| 2026-10-26   | Marcos Dias Ferreira       |                 1 | NULL                                | NULL       | Empregado (CLT)      | Ana Paula Ribeiro    |
+| 2026-10-27   | Carlos Batista Vieira      |                 1 | NULL                                | NULL       | Aposentado / BPC     | Fernanda Souza Alves |
+| 2026-10-27   | Carlos Costa Cardoso       |                 1 | NULL                                | NULL       | Desempregado         | Ana Paula Ribeiro    |
+| 2026-10-28   | Daniel Brito Costa         |                 1 | NULL                                | NULL       | Desempregado         | Ana Paula Ribeiro    |
+| 2026-10-28   | Fernanda Carvalho Ribeiro  |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-28   | Manoel Silva Carvalho      |                 1 | NULL                                | NULL       | Desempregado         | Fernanda Souza Alves |
+| 2026-10-28   | Thiago Brito Vieira        |                 1 | 1 unidade Leite em pó (lata 400 g)  | NULL       | Desempregado         | Ana Paula Ribeiro    |
+| 2026-10-29   | Francisca Nunes Silva      |                 1 | 1 unidade Kit de higiene            | NULL       | Aposentada / BPC     | Ana Paula Ribeiro    |
+| 2026-10-29   | João Brito Silva           |                 1 | NULL                                | NULL       | Desempregado         | Fernanda Souza Alves |
+| 2026-10-29   | Thiago Cardoso Machado     |                 1 | NULL                                | NULL       | Aposentado / BPC     | Ana Paula Ribeiro    |
+| 2026-10-30   | Camila Nascimento Freitas  |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-30   | Camila Soares Vieira       |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-30   | Josué Gonçalves Farias     |                 2 | 2 unidades Kit de higiene           | NULL       | Desempregado         | Fernanda Souza Alves |
+| 2026-10-30   | Letícia Cardoso Monteiro   |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-30   | Letícia Correia Ramos      |                 1 | NULL                                | NULL       | Desempregada         | Ana Paula Ribeiro    |
+| 2026-10-30   | Michele Brito Marques      |                 1 | NULL                                | NULL       | Desempregada         | Fernanda Souza Alves |
++--------------+----------------------------+-------------------+-------------------------------------+------------+----------------------+----------------------+
++-----------------+---------------------+-----------------+---------------------------+
+| id_beneficiario | nome_completo       | telefone        | data_atualizacao_cadunico |
++-----------------+---------------------+-----------------+---------------------------+
+|              41 | Bruna Ferreira Lima | (11) 98266-7525 | 2022-03-05                |
++-----------------+---------------------+-----------------+---------------------------+
++-----------------+---------------------+-----------------+---------------------------+
+| id_beneficiario | nome_completo       | telefone        | data_atualizacao_cadunico |
++-----------------+---------------------+-----------------+---------------------------+
+|              41 | Bruna Ferreira Lima | (11) 91234-0000 | 2026-10-29                |
++-----------------+---------------------+-----------------+---------------------------+
++--------+-----------------+--------------+-------------------+
+| id_pia | id_beneficiario | data_criacao | prazo_reavaliacao |
++--------+-----------------+--------------+-------------------+
+|      1 |              65 | 2024-03-03   | 2024-06-01        |
++--------+-----------------+--------------+-------------------+
++--------+-----------------+--------------+-------------------+--------------------------------------------------------------------------------------------------------------------------+
+| id_pia | id_beneficiario | data_criacao | prazo_reavaliacao | metas_objetivos                                                                                                          |
++--------+-----------------+--------------+-------------------+--------------------------------------------------------------------------------------------------------------------------+
+|      1 |              65 | 2024-03-03   | 2027-01-29        | Requerimento do BPC; Inserção em curso profissionalizante; Regularizar documentação civil. Reavaliado em 29/10/2026.     |
++--------+-----------------+--------------+-------------------+--------------------------------------------------------------------------------------------------------------------------+
++-----------------+-------------------------+----------------+-----------------+--------------+------------------------------+-------------------+
+| id_beneficiario | nome_completo           | cpf            | data_nascimento | naturalidade | endereco                     | situacao_cadastro |
++-----------------+-------------------------+----------------+-----------------+--------------+------------------------------+-------------------+
+|               3 | Jéssica Araújo Soares   | 499.257.602-82 | 1996-02-10      | Salvador/BA  | Rua dos Cedros, 980, apto 15 | ATIVO             |
++-----------------+-------------------------+----------------+-----------------+--------------+------------------------------+-------------------+
++-----------------+---------------+------+-----------------+--------------+-------------+-------------------+-----------------------+
+| id_beneficiario | nome_completo | cpf  | data_nascimento | naturalidade | endereco    | situacao_cadastro | atendimentos_mantidos |
++-----------------+---------------+------+-----------------+--------------+-------------+-------------------+-----------------------+
+|               3 | ANONIMIZADO-3 | NULL | 1996-01-01      | NULL         | ANONIMIZADO | ANONIMIZADO       |                     1 |
++-----------------+---------------+------+-----------------+--------------+-------------+-------------------+-----------------------+
++--------+---------+-----------------+--------------+----------------+-------------+----------------+
+| id_log | papel   | id_profissional | operacao     | tabela_afetada | id_registro | categoria_dado |
++--------+---------+-----------------+--------------+----------------+-------------+----------------+
+|    210 | TECNICO |               1 | ALTERACAO    | beneficiario   |          41 | PESSOAL        |
+|    211 | TECNICO |               1 | ANONIMIZACAO | beneficiario   |           3 | PESSOAL        |
++--------+---------+-----------------+--------------+----------------+-------------+----------------+
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
+| id_encaminhamento | id_atendimento | tipo_encaminhamento | detalhe_outros                             | id_orgao_destino |
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
+|               221 |            675 | Habitação           | Programas habitacionais e auxílio aluguel  |               14 |
+|               222 |            675 | Habitação           | Programas habitacionais e auxílio aluguel  |               14 |
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
+| id_encaminhamento | id_atendimento | tipo_encaminhamento | detalhe_outros                             | id_orgao_destino |
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
+|               221 |            675 | Habitação           | Programas habitacionais e auxílio aluguel  |               14 |
++-------------------+----------------+---------------------+--------------------------------------------+------------------+
++---------------+-----------------+-----------------------+-------------+--------------------+-----------------+
+| id_referencia | id_beneficiario | nome                  | nome_social | parentesco_vinculo | telefone        |
++---------------+-----------------+-----------------------+-------------+--------------------+-----------------+
+|           258 |             248 | Silvana Lopes Almeida | NULL        | Irmã               | (11) 93366-5338 |
+|           259 |             248 | José Rocha Pinto      | NULL        | Irmão              | (11) 99029-8121 |
++---------------+-----------------+-----------------------+-------------+--------------------+-----------------+
++---------------+-----------------+-------------------+-------------+--------------------+-----------------+
+| id_referencia | id_beneficiario | nome              | nome_social | parentesco_vinculo | telefone        |
++---------------+-----------------+-------------------+-------------+--------------------+-----------------+
+|           259 |             248 | José Rocha Pinto  | NULL        | Irmão              | (11) 99029-8121 |
++---------------+-----------------+-------------------+-------------+--------------------+-----------------+
++-------------+----------------+---------------------------------------------------------------------------------------------------------------------+----------------------+
+| data_evento | evento         | detalhe                                                                                                             | profissional         |
++-------------+----------------+---------------------------------------------------------------------------------------------------------------------+----------------------+
+| 2023-08-09  | Atendimento    | Triagem inicial: Desemprego; busca recolocação profissional                                                         | Ana Paula Ribeiro    |
+| 2024-09-23  | Atendimento    | Retorno: busca orientação sobre cadúnico e programas de transferência de renda                                      | Fernanda Souza Alves |
+| 2025-06-12  | Atendimento    | Retorno: busca vaga em creche/escola para os filhos                                                                 | Ana Paula Ribeiro    |
+| 2025-06-12  | Encaminhamento | Educação - creche/escola — Solicitação de vaga em CEI/EMEF da região                                                | Ana Paula Ribeiro    |
+| 2026-08-14  | Atendimento    | Retorno: avaliação socioeconômica e concessão de cesta básica                                                       | Fernanda Souza Alves |
+| 2026-08-14  | Cesta básica   | 1 cesta(s)                                                                                                          | Fernanda Souza Alves |
+| 2026-08-14  | PIA            | Garantir acesso regular a alimentos; Acesso a moradia (Centro de Acolhida / auxílio aluguel); Requerimento do BPC.  | Fernanda Souza Alves |
+| 2026-10-06  | Atendimento    | Retorno: busca vaga em creche/escola para os filhos                                                                 | Ana Paula Ribeiro    |
+| 2026-10-28  | Atendimento    | Retorno: avaliação socioeconômica e concessão de cesta básica                                                       | Ana Paula Ribeiro    |
+| 2026-10-28  | Cesta básica   | 1 cesta(s)                                                                                                          | Ana Paula Ribeiro    |
++-------------+----------------+---------------------------------------------------------------------------------------------------------------------+----------------------+
++----------+------------------+------------------+--------------------+-----------------------+
+| bimestre | cestas_recebidas | cestas_entregues | familias_atendidas | taxa_distribuicao_pct |
++----------+------------------+------------------+--------------------+-----------------------+
+| 2026-B4  |           150.00 |              151 |                119 |                 100.7 |
+| 2026-B5  |           150.00 |              149 |                115 |                  99.3 |
++----------+------------------+------------------+--------------------+-----------------------+
++-----------------+------------------------------+-----------------+---------------+--------------------+--------------+
+| id_beneficiario | nome_completo                | telefone        | bairro        | pessoas_na_familia | ultima_cesta |
++-----------------+------------------------------+-----------------+---------------+--------------------+--------------+
+|             207 | Fernanda Gonçalves Ramos     | (11) 91277-8748 | Mooca         |                  6 | 2026-08-03   |
+|             202 | Luiz Nunes Nascimento        | (11) 95898-1893 | Mooca         |                  6 | NULL         |
+|              62 | Rodrigo Fernandes Rocha      | (11) 98494-4458 | Cambuci       |                  6 | 2026-07-07   |
+|             149 | Michele Araújo Souza         | (11) 95859-9989 | Água Rasa     |                  5 | 2026-07-28   |
+|              65 | Renata Monteiro Soares       | (11) 98680-9498 | Mooca         |                  5 | NULL         |
+|              33 | Juliana Fernandes Farias     | (11) 93582-1479 | Tatuapé       |                  4 | 2026-08-10   |
+|              32 | Michele Cardoso Nunes        | (11) 95830-4710 | Brás          |                  4 | 2026-08-19   |
+|             136 | Patrícia Correia Freitas     | NULL            | Cambuci       |                  4 | 2026-07-21   |
+|              78 | Adilson Barbosa Cardoso      | (11) 97048-7016 | Brás          |                  3 | NULL         |
+|               7 | Adilson Gonçalves Machado    | (11) 97403-2521 | Mooca         |                  3 | NULL         |
+|              22 | Carlos Araújo Correia        | (11) 91189-6461 | Brás          |                  3 | 2026-08-14   |
+|             211 | Joana Rodrigues Souza        | (11) 98400-3775 | Mooca         |                  3 | 2026-07-24   |
+|              56 | Adriana Pereira Lima         | (11) 98035-1433 | Belém         |                  2 | 2026-08-21   |
+|             203 | Elaine Marques Ramos         | (11) 98655-1291 | Água Rasa     |                  2 | NULL         |
+|             156 | Francisca Nascimento Batista | (11) 98454-5183 | Brás          |                  2 | 2026-08-11   |
+|             226 | Josefa Almeida Cardoso       | (11) 97156-5965 | Brás          |                  2 | 2026-08-26   |
+|             108 | Patrícia Ramos Oliveira      | (11) 95676-6619 | Água Rasa     |                  2 | 2026-07-07   |
+|             121 | Adilson Ribeiro Costa        | (11) 91485-8117 | Brás          |                  1 | 2026-08-05   |
+|              89 | Ana Martins Cavalcanti       | (11) 97239-8431 | Vila Prudente |                  1 | 2026-07-08   |
+|             210 | Joana Rocha Andrade          | (11) 95341-6400 | Mooca         |                  1 | 2026-08-26   |
+|               6 | Juliana Nunes Moreira        | (11) 95491-5754 | Belém         |                  1 | NULL         |
+|              69 | Regina Gonçalves Dias        | NULL            | Belém         |                  1 | 2026-07-01   |
+|             132 | Rodrigo Ramos Lopes          | (11) 92165-9764 | Água Rasa     |                  1 | 2026-07-28   |
++-----------------+------------------------------+-----------------+---------------+--------------------+--------------+
++----------+------------------+---------------------+-----------------+
+| bimestre | cestas_entregues | cestas_prioritarias | focalizacao_pct |
++----------+------------------+---------------------+-----------------+
+| 2026-B4  |              151 |                 124 |            82.1 |
+| 2026-B5  |              149 |                 118 |            79.2 |
++----------+------------------+---------------------+-----------------+
++---------+--------------+-------------------+-----------------+
+| mes     | atendimentos | pessoas_atendidas | novos_cadastros |
++---------+--------------+-------------------+-----------------+
+| 2026-07 |           94 |                86 |               8 |
+| 2026-08 |           78 |                72 |               7 |
+| 2026-09 |           88 |                77 |               7 |
+| 2026-10 |           88 |                74 |               7 |
++---------+--------------+-------------------+-----------------+
++----------------------------+-----------------+--------------+
+| tipo_encaminhamento        | encaminhamentos | pct_do_total |
++----------------------------+-----------------+--------------+
+| CRAS - CadÚnico            |              12 |         16.2 |
+| Habitação                  |              12 |         16.2 |
+| Outros                     |              11 |         14.9 |
+| Empregabilidade - CAT      |               9 |         12.2 |
+| Saúde mental - CAPS        |               8 |         10.8 |
+| Assistência jurídica       |               6 |          8.1 |
+| Educação - creche/escola   |               5 |          6.8 |
+| Documentação civil         |               4 |          5.4 |
+| Saúde - UBS                |               4 |          5.4 |
+| Saúde - AMA                |               3 |          4.1 |
++----------------------------+-----------------+--------------+
++-----------------+----------------------------+--------------+-------------------+----------------+--------------------------+
+| id_beneficiario | nome_completo              | data_criacao | prazo_reavaliacao | dias_em_atraso | profissional_responsavel |
++-----------------+----------------------------+--------------+-------------------+----------------+--------------------------+
+|             102 | Eduardo Dias Ribeiro       | 2025-11-16   | 2026-02-14        |            259 | Ana Paula Ribeiro        |
+|             188 | Daniela Rocha Rodrigues    | 2026-03-10   | 2026-06-08        |            145 | Fernanda Souza Alves     |
+|             194 | Ana de Souza Nascimento    | 2026-04-05   | 2026-07-04        |            119 | Ana Paula Ribeiro        |
+|             208 | Valéria Ribeiro Carvalho   | 2026-05-22   | 2026-08-20        |             72 | Fernanda Souza Alves     |
+|             209 | Rodrigo Machado Gonçalves  | 2026-05-25   | 2026-08-23        |             69 | Fernanda Souza Alves     |
+|             212 | Carlos Lima Ramos          | 2026-06-03   | 2026-09-01        |             60 | Ana Paula Ribeiro        |
+|             161 | Carlos Costa Cardoso       | 2026-07-02   | 2026-09-30        |             31 | Ana Paula Ribeiro        |
+|              79 | Letícia Correia Ramos      | 2026-07-03   | 2026-10-01        |             30 | Fernanda Souza Alves     |
+|              93 | Vera Costa Alves           | 2026-07-03   | 2026-10-01        |             30 | Ana Paula Ribeiro        |
+|             125 | Camila Soares Vieira       | 2026-07-15   | 2026-10-13        |             18 | Ana Paula Ribeiro        |
+|             132 | Rodrigo Ramos Lopes        | 2026-07-28   | 2026-10-26        |              5 | Ana Paula Ribeiro        |
+|             149 | Michele Araújo Souza       | 2026-07-28   | 2026-10-26        |              5 | Fernanda Souza Alves     |
++-----------------+----------------------------+--------------+-------------------+----------------+--------------------------+
++---------------+---------------+--------------+
+| pias_vigentes | pias_vencidos | pct_vencidos |
++---------------+---------------+--------------+
+|            36 |            12 |         33.3 |
++---------------+---------------+--------------+
++----------------------+----------+---------+---------------------------+--------------------+-------------------+
+| faixa_etaria_titular | familias | pessoas | media_pessoas_por_familia | pct_cadunico_ativo | pct_desempregados |
++----------------------+----------+---------+---------------------------+--------------------+-------------------+
+| 18 a 29              |       41 |     110 |                       2.7 |               78.0 |              58.5 |
+| 30 a 44              |       55 |     165 |                       3.0 |               83.6 |              65.5 |
+| 45 a 59              |       79 |     246 |                       3.1 |               77.2 |              60.8 |
+| 60 ou mais           |       72 |     228 |                       3.2 |               69.4 |              18.1 |
++----------------------+----------+---------+---------------------------+--------------------+-------------------+
++---------+----------------------------------------------------------------+---------+--------------+------------+
+| mes     | parceiro                                                       | unidade | recebimentos | quantidade |
++---------+----------------------------------------------------------------+---------+--------------+------------+
+| 2026-07 | Banco de Alimentos                                             | kg      |            1 |     280.00 |
+| 2026-07 | Banco de Alimentos                                             | L       |            1 |      40.00 |
+| 2026-07 | Doadores particulares (registro agregado, sem identificação)   | unidade |            1 |      40.00 |
+| 2026-07 | Prefeitura de São Paulo (lote bimestral de cestas)             | cesta   |            1 |     150.00 |
+| 2026-07 | Projeto Cidade Invisível                                       | kg      |            2 |     125.00 |
+| 2026-08 | Banco de Alimentos                                             | kg      |            1 |     255.00 |
+| 2026-08 | Banco de Alimentos                                             | L       |            1 |      35.00 |
+| 2026-08 | Paróquia do bairro (campanha de arrecadação)                   | kg      |            1 |     180.00 |
+| 2026-08 | Projeto Cidade Invisível                                       | kg      |            2 |     140.00 |
+| 2026-09 | Banco de Alimentos                                             | kg      |            1 |     300.00 |
+| 2026-09 | Banco de Alimentos                                             | L       |            1 |      40.00 |
+| 2026-09 | Doadores particulares (registro agregado, sem identificação)   | unidade |            1 |      60.00 |
+| 2026-09 | Prefeitura de São Paulo (lote bimestral de cestas)             | cesta   |            1 |     150.00 |
+| 2026-09 | Projeto Cidade Invisível                                       | kg      |            2 |     145.00 |
+| 2026-10 | Banco de Alimentos                                             | kg      |            1 |     220.00 |
+| 2026-10 | Banco de Alimentos                                             | L       |            1 |      30.00 |
+| 2026-10 | Doadores particulares (registro agregado, sem identificação)   | unidade |            1 |      35.00 |
+| 2026-10 | Paróquia do bairro (campanha de arrecadação)                   | kg      |            1 |     150.00 |
+| 2026-10 | Projeto Cidade Invisível                                       | kg      |            2 |     145.00 |
++---------+----------------------------------------------------------------+---------+--------------+------------+
++---------------------------+---------------+----------------+-----------------+----------+--------+--------+----------------+----------+------------------+
+| nome                      | categoria     | unidade_medida | estoque_inicial | entradas | saidas | saldo  | estoque_minimo | situacao | proxima_validade |
++---------------------------+---------------+----------------+-----------------+----------+--------+--------+----------------+----------+------------------+
+| Cesta básica              | CESTA_BASICA  | cesta          |            0.00 |   300.00 | 300.00 |   0.00 |          20.00 | REPOR    | 2027-01-31       |
+| Material escolar (kit)    | ESCOLAR       | unidade        |           10.00 |    35.00 |  12.00 |  33.00 |           5.00 | ok       | NULL             |
+| Kit de higiene            | HIGIENE       | unidade        |           10.00 |    45.00 |  14.00 |  41.00 |           5.00 | ok       | NULL             |
+| Fraldas (pacote)          | INFANTIL      | unidade        |            5.00 |    15.00 |  11.00 |   9.00 |           5.00 | ok       | NULL             |
+| Leite em pó (lata 400 g)  | INFANTIL      | unidade        |            5.00 |    25.00 |   9.00 |  21.00 |           5.00 | ok       | 2027-01-31       |
+| Kit de limpeza            | LIMPEZA       | unidade        |           10.00 |    15.00 |  12.00 |  13.00 |           5.00 | ok       | NULL             |
+| Arroz                     | NAO_PERECIVEL | kg             |           40.00 |   570.00 | 500.00 | 110.00 |          50.00 | ok       | 2027-05-31       |
+| Enlatados                 | NAO_PERECIVEL | kg             |           10.00 |   165.00 | 150.00 |  25.00 |          10.00 | ok       | 2027-08-31       |
+| Feijão                    | NAO_PERECIVEL | kg             |           30.00 |   390.00 | 345.00 |  75.00 |          40.00 | ok       | 2027-02-28       |
+| Macarrão                  | NAO_PERECIVEL | kg             |           20.00 |   260.00 | 215.00 |  65.00 |          20.00 | ok       | 2027-04-30       |
+| Óleo de soja              | NAO_PERECIVEL | L              |           12.00 |   145.00 | 127.00 |  30.00 |          15.00 | ok       | 2027-02-28       |
+| Hortifrúti                | PERECIVEL     | kg             |            0.00 |   380.00 | 371.00 |   9.00 |           0.00 | ok       | NULL             |
+| Pães                      | PERECIVEL     | kg             |            0.00 |   175.00 | 174.00 |   1.00 |           0.00 | ok       | NULL             |
++---------------------------+---------------+----------------+-----------------+----------+--------+--------+----------------+----------+------------------+
++-------------+-----------------------------------------------+------------------+-------+-----------+-----------+--------------+-------------+
+| data_evento | evento                                        | tipo             | vagas | inscritos | presentes | presenca_pct | voluntarios |
++-------------+-----------------------------------------------+------------------+-------+-----------+-----------+--------------+-------------+
+| 2026-07-18  | Passeio cultural ao museu de ciências         | PASSEIO          |    30 |        28 |        23 |         82.1 |           2 |
+| 2026-07-25  | Oficina de educação financeira                | OFICINA          |    20 |        18 |        16 |         88.9 |           1 |
+| 2026-08-08  | Arraiá comunitário da ONG                     | CONFRATERNIZACAO |    80 |        72 |        65 |         90.3 |           4 |
+| 2026-08-22  | Palestra: direitos e acesso ao CadÚnico       | PALESTRA         |    40 |        35 |        29 |         82.9 |           2 |
+| 2026-09-12  | Passeio ao parque com as crianças             | PASSEIO          |    35 |        33 |        32 |         97.0 |           3 |
+| 2026-09-26  | Oficina de currículo e entrevista de emprego  | OFICINA          |    20 |        23 |        22 |         95.7 |           2 |
+| 2026-10-10  | Festa do Dia das Crianças                     | CONFRATERNIZACAO |   100 |        95 |        78 |         82.1 |           5 |
+| 2026-10-24  | Campanha de vacinação com a UBS               | CAMPANHA         |    60 |        52 |        47 |         90.4 |           2 |
++-------------+-----------------------------------------------+------------------+-------+-----------+-----------+--------------+-------------+
++---------+------------+----------------+---------+
+| mes     | papel      | categoria_dado | acessos |
++---------+------------+----------------+---------+
+| 2026-07 | TECNICO    | SENSIVEL       |      10 |
+| 2026-07 | TECNICO    | SIGILOSO       |      22 |
+| 2026-08 | TECNICO    | SENSIVEL       |       6 |
+| 2026-08 | TECNICO    | SIGILOSO       |      19 |
+| 2026-09 | TECNICO    | SENSIVEL       |       6 |
+| 2026-09 | TECNICO    | SIGILOSO       |      16 |
+| 2026-09 | VOLUNTARIO | SENSIVEL       |       1 |
+| 2026-10 | ADMIN      | SIGILOSO       |       1 |
+| 2026-10 | TECNICO    | SENSIVEL       |       8 |
+| 2026-10 | TECNICO    | SIGILOSO       |      21 |
+| 2026-10 | VOLUNTARIO | SIGILOSO       |       1 |
++---------+------------+----------------+---------+
++------------+--------------+-----------------+--------------------------+------------------+----------------------+
+| id_entrega | data_entrega | id_beneficiario | nome_completo            | primeira_triagem | registrado_por       |
++------------+--------------+-----------------+--------------------------+------------------+----------------------+
+|        196 | 2026-10-12   |             246 | Adilson Batista Martins  | 2026-10-19       | Fernanda Souza Alves |
+|        208 | 2026-10-20   |             250 | Cristiane da Rocha Ramos | 2026-10-28       | Fernanda Souza Alves |
++------------+--------------+-----------------+--------------------------+------------------+----------------------+
++------------+--------------+----------------------------+----------------+----------------------+--------------------------+
+| id_entrega | data_entrega | nome_completo              | cadunico_ativo | situacao_ocupacional | autorizado_por           |
++------------+--------------+----------------------------+----------------+----------------------+--------------------------+
+|        122 | 2026-09-01   | Lucas de Andrade Ribeiro   |              0 | Desempregado         | Ana Paula Ribeiro        |
+|        131 | 2026-09-08   | Adriana Farias Monteiro    |              0 | Sem registro         | Fernanda Souza Alves     |
+|        128 | 2026-09-08   | Renata Cavalcanti Moreira  |              1 | Empregada (CLT)      | Ana Paula Ribeiro        |
+|        136 | 2026-09-11   | Manoel Araújo Fernandes    |              1 | Aposentado / BPC     | Fernanda Souza Alves     |
+|        141 | 2026-09-16   | Letícia Ferreira Freitas   |              1 | Trabalho informal    | Fernanda Souza Alves     |
+|        147 | 2026-09-17   | Regina Dias Andrade        |              1 | Aposentada / BPC     | Ana Paula Ribeiro        |
+|        159 | 2026-09-23   | Diego Almeida Teixeira     |              1 | Aposentado / BPC     | Ana Paula Ribeiro        |
+|        161 | 2026-09-24   | Josefa de Freitas Ferreira |              1 | Aposentada / BPC     | Roberto Almeida Nogueira |
+|        166 | 2026-09-25   | José Teixeira Dias         |              0 | Aposentado / BPC     | Ana Paula Ribeiro        |
+|        172 | 2026-09-29   | Cláudia Dias Machado       |              1 | Aposentada / BPC     | Ana Paula Ribeiro        |
+|        171 | 2026-09-29   | Silvana Monteiro Gomes     |              1 | Do lar               | Ana Paula Ribeiro        |
+|        180 | 2026-10-01   | Ana Pinto Rocha            |              0 | Desempregada         | Ana Paula Ribeiro        |
+|        178 | 2026-10-01   | Juliana Farias Ribeiro     |              1 | Aposentada / BPC     | Fernanda Souza Alves     |
+|        182 | 2026-10-05   | Anderson Correia Araújo    |              0 | Trabalho informal    | Ana Paula Ribeiro        |
+|        183 | 2026-10-05   | Daniela Barbosa Moreira    |              0 | Empregada (CLT)      | Ana Paula Ribeiro        |
+|        185 | 2026-10-06   | Tatiane Gonçalves Marques  |              1 | Aposentada / BPC     | Ana Paula Ribeiro        |
+|        190 | 2026-10-08   | Adilson Moreira Ramos      |              1 | Do lar               | Ana Paula Ribeiro        |
+|        192 | 2026-10-09   | Débora Batista Almeida     |              0 | Do lar               | Ana Paula Ribeiro        |
+|        198 | 2026-10-14   | Simone Correia Moreira     |              1 | Aposentada / BPC     | Fernanda Souza Alves     |
+|        199 | 2026-10-15   | Luciana Gomes Andrade      |              0 | Aposentada / BPC     | Ana Paula Ribeiro        |
+|        205 | 2026-10-19   | Juliana Costa Ramos        |              0 | Desempregada         | Ana Paula Ribeiro        |
+|        206 | 2026-10-19   | Vera Ribeiro Teixeira      |              0 | Trabalho informal    | Fernanda Souza Alves     |
+|        208 | 2026-10-20   | Cristiane da Rocha Ramos   |              1 | Aposentada / BPC     | Fernanda Souza Alves     |
+|        217 | 2026-10-23   | Adriana Fernandes Marques  |              0 | Trabalho informal    | Fernanda Souza Alves     |
+|        215 | 2026-10-23   | Neide Cardoso Fernandes    |              1 | Trabalho informal    | Ana Paula Ribeiro        |
+|        212 | 2026-10-23   | Priscila Santana Pereira   |              1 | Do lar               | Ana Paula Ribeiro        |
+|        218 | 2026-10-26   | João Araújo Martins        |              1 | Empregado (CLT)      | Fernanda Souza Alves     |
+|        221 | 2026-10-26   | Marcos Dias Ferreira       |              0 | Empregado (CLT)      | Ana Paula Ribeiro        |
+|        224 | 2026-10-27   | Carlos Batista Vieira      |              1 | Aposentado / BPC     | Fernanda Souza Alves     |
+|        231 | 2026-10-29   | Francisca Nunes Silva      |              0 | Aposentada / BPC     | Ana Paula Ribeiro        |
+|        230 | 2026-10-29   | Thiago Cardoso Machado     |              0 | Aposentado / BPC     | Ana Paula Ribeiro        |
++------------+--------------+----------------------------+----------------+----------------------+--------------------------+
++-----------------+------------------------+---------+-----------------+---------------+
+| id_beneficiario | nome_completo          | mes     | entregas_no_mes | cestas_no_mes |
++-----------------+------------------------+---------+-----------------+---------------+
+|             177 | Gilberto Barbosa Gomes | 2026-09 |               2 |             2 |
+|             142 | Camila Batista Souza   | 2026-10 |               2 |             3 |
+|             104 | Gabriel Vieira Santos  | 2026-10 |               2 |             2 |
++-----------------+------------------------+---------+-----------------+---------------+
++-----------------+----------------------------+-------------+---------------------------+--------------------+
+| id_beneficiario | nome_completo              | nis         | data_atualizacao_cadunico | dias_sem_atualizar |
++-----------------+----------------------------+-------------+---------------------------+--------------------+
+|              38 | Gabriel Marques Cavalcanti | 19672472511 | 2022-02-12                |               1722 |
+|              32 | Michele Cardoso Nunes      | NULL        | 2022-06-16                |               1598 |
+|             233 | Fernanda de Almeida Gomes  | 12486891363 | 2022-10-14                |               1478 |
+|             202 | Luiz Nunes Nascimento      | 20544372166 | 2022-11-29                |               1432 |
+|             242 | Antônia Soares Barbosa     | NULL        | 2022-12-24                |               1407 |
+|             140 | Edson Rodrigues Cardoso    | 23059590481 | 2023-04-15                |               1295 |
+|              67 | Adriana Correia Teixeira   | NULL        | 2023-05-19                |               1261 |
+|              36 | Paulo de Freitas Almeida   | NULL        | 2024-07-01                |                852 |
+|              58 | Juliana Farias Ribeiro     | NULL        | 2024-08-09                |                813 |
++-----------------+----------------------------+-------------+---------------------------+--------------------+
++-----------------+----------------------------+-------------------+--------------------+
+| id_beneficiario | nome_completo              | situacao_cadastro | ultimo_atendimento |
++-----------------+----------------------------+-------------------+--------------------+
+|               5 | Ana Machado Freitas        | ATIVO             | 2020-11-11         |
+|               4 | Francisco Rodrigues Vieira | ATIVO             | 2021-03-07         |
+|               7 | Adilson Gonçalves Machado  | ATIVO             | 2021-07-22         |
+|               8 | Cristiane de Lima Santos   | ATIVO             | 2021-08-09         |
+|               6 | Juliana Nunes Moreira      | ATIVO             | 2021-08-19         |
++-----------------+----------------------------+-------------------+--------------------+
++-----------------+--------------------------+--------------------+----------------------+
+| id_beneficiario | nome_completo            | data_consentimento | primeiro_atendimento |
++-----------------+--------------------------+--------------------+----------------------+
+|             165 | Luciana Martins Lopes    | 2025-09-24         | 2025-09-11           |
+|             178 | Valéria Cavalcanti Dias  | 2025-11-30         | 2025-11-21           |
++-----------------+--------------------------+--------------------+----------------------+
++-----------------+----------------------------+-----------------------+-----------+--------+
+| id_beneficiario | nome_completo              | cadastro              | registros | limite |
++-----------------+----------------------------+-----------------------+-----------+--------+
+|              97 | Patrícia Nascimento Nunes  | Composição familiar   |         6 |      5 |
+|             116 | Jéssica Alves Moura        | Referência familiar   |         4 |      3 |
++-----------------+----------------------------+-----------------------+-----------+--------+
++--------------------------+------------+-----------------------------+-------------------------+-----------+
+| nome                     | funcao     | registro_profissional       | tipo_registro           | registros |
++--------------------------+------------+-----------------------------+-------------------------+-----------+
+| Roberto Almeida Nogueira | Presidente | SEM REGISTRO - Presidência  | Entrega de cesta        |         2 |
+| Roberto Almeida Nogueira | Presidente | SEM REGISTRO - Presidência  | Recebimento de doação   |         3 |
++--------------------------+------------+-----------------------------+-------------------------+-----------+
++----------+------------------+------------------+-----------+
+| bimestre | cestas_recebidas | cestas_entregues | diferenca |
++----------+------------------+------------------+-----------+
+| 2026-B4  |           150.00 |              151 |      1.00 |
++----------+------------------+------------------+-----------+
++----------------+------------------+-------------------------------------------------+-----------+------------+---------------+--------------+
+| id_recebimento | data_recebimento | parceiro                                        | produto   | quantidade | data_validade | dias_vencido |
++----------------+------------------+-------------------------------------------------+-----------+------------+---------------+--------------+
+|              8 | 2026-08-17       | Paróquia do bairro (campanha de arrecadação)    | Enlatados |      30.00 | 2026-08-10    |            7 |
++----------------+------------------+-------------------------------------------------+-----------+------------+---------------+--------------+
++-----------+-----------------------------------------------+-------------+-------+-----------+
+| id_evento | nome                                          | data_evento | vagas | inscritos |
++-----------+-----------------------------------------------+-------------+-------+-----------+
+|         6 | Oficina de currículo e entrevista de emprego  | 2026-09-26  |    20 |        23 |
++-----------+-----------------------------------------------+-------------+-------+-----------+
++-----------------------+-------------------+-------------------+-----------------------------+-------------+------------------+
+| nome                  | data_termo_adesao | data_desligamento | evento                      | data_evento | funcao_no_evento |
++-----------------------+-------------------+-------------------+-----------------------------+-------------+------------------+
+| Patrícia Lopes Moura  | 2026-08-15        | NULL              | Arraiá comunitário da ONG   | 2026-08-08  | Recreação        |
++-----------------------+-------------------+-------------------+-----------------------------+-------------+------------------+
++---------------------+------------+--------------------------+----------+----------------+-------------+----------------+
+| data_hora           | papel      | usuario                  | operacao | tabela_afetada | id_registro | categoria_dado |
++---------------------+------------+--------------------------+----------+----------------+-------------+----------------+
+| 2026-09-03 10:12:00 | VOLUNTARIO | Rafael Souza Prado       | LEITURA  | beneficiario   |          48 | SENSIVEL       |
+| 2026-10-14 15:40:00 | VOLUNTARIO | Bruno Henrique Costa     | LEITURA  | pia            |           7 | SIGILOSO       |
+| 2026-10-20 17:25:00 | ADMIN      | Roberto Almeida Nogueira | LEITURA  | atendimento    |         700 | SIGILOSO       |
++---------------------+------------+--------------------------+----------+----------------+-------------+----------------+

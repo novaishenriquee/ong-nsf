@@ -1,0 +1,112 @@
+8.0.46
+== SQL/script.sql
++----------------------------+------------+
+| objeto                     | tipo       |
++----------------------------+------------+
+| atendimento                | BASE TABLE |
+| beneficiario               | BASE TABLE |
+| composicao_familiar        | BASE TABLE |
+| encaminhamento_atendimento | BASE TABLE |
+| entrega_cesta              | BASE TABLE |
+| evento                     | BASE TABLE |
+| item_recebimento           | BASE TABLE |
+| log_acesso                 | BASE TABLE |
+| orgao_parceiro             | BASE TABLE |
+| participacao_evento        | BASE TABLE |
+| pia                        | BASE TABLE |
+| produto                    | BASE TABLE |
+| profissional_responsavel   | BASE TABLE |
+| recebimento_doacao         | BASE TABLE |
+| referencia_familiar        | BASE TABLE |
+| saida_estoque              | BASE TABLE |
+| trabalho                   | BASE TABLE |
+| voluntario                 | BASE TABLE |
+| voluntario_evento          | BASE TABLE |
+| v_estoque_produto          | VIEW       |
++----------------------------+------------+
++----------------------------+-----------+----------+
+| tabela                     | registros | esperado |
++----------------------------+-----------+----------+
+| profissional_responsavel   |         4 |        4 |
+| orgao_parceiro             |        16 |       16 |
+| beneficiario               |       250 |      250 |
+| trabalho                   |       242 |      242 |
+| composicao_familiar        |       509 |      509 |
+| referencia_familiar        |       261 |      261 |
+| atendimento                |       727 |      727 |
+| encaminhamento_atendimento |       233 |      233 |
+| pia                        |        42 |       42 |
+| produto                    |        13 |       13 |
+| recebimento_doacao         |        19 |       19 |
+| item_recebimento           |        51 |       51 |
+| entrega_cesta              |       237 |      237 |
+| saida_estoque              |       106 |      106 |
+| voluntario                 |         8 |        8 |
+| evento                     |         8 |        8 |
+| participacao_evento        |       356 |      356 |
+| voluntario_evento          |        21 |       21 |
+| log_acesso                 |       209 |      209 |
++----------------------------+-----------+----------+
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
+| id_atendimento | beneficiario              | profissional         | registro_profissional | demanda_inicial                                                                            |
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
+|            708 | Fernanda Carvalho Ribeiro | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            709 | Priscila Santana Pereira  | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: dificuldade de acesso a consulta médica e medicamentos                            |
+|            710 | Daniel Brito Costa        | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            711 | Priscila Batista Moreira  | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: desemprego; busca recolocação profissional                                        |
+|            712 | Manoel Silva Carvalho     | Fernanda Souza Alves | CRESS-SP 90003        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            713 | Thiago Brito Vieira       | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: avaliação socioeconômica e concessão de cesta básica                              |
+|            714 | Daniela Barbosa Moreira   | Carlos Eduardo Lima  | CRP 06/90002          | Retorno: sofrimento psíquico; solicita apoio psicológico                                   |
+|            715 | Lúcia Fernandes Ribeiro   | Ana Paula Ribeiro    | CRESS-SP 90001        | Retorno: busca orientação sobre cadúnico e programas de transferência de renda             |
+|            716 | Cristiane da Rocha Ramos  | Fernanda Souza Alves | CRESS-SP 90003        | Triagem inicial: Busca orientação sobre CadÚnico e programas de transferência de renda     |
++----------------+---------------------------+----------------------+-----------------------+--------------------------------------------------------------------------------------------+
+== conferência depois do script.sql
+beneficiario: 250 (esperado 250)
+encaminhamento_atendimento: 232 (esperado 232)
+referencia_familiar: 260 (esperado 260)
+log_acesso: 211 (esperado 211)
+linhas de log criadas pelo trigger: 2
+produtos com saldo negativo: 0
+== SQL/massa-dados.sql
++----------------------------+-----------+----------+
+| tabela                     | registros | esperado |
++----------------------------+-----------+----------+
+| profissional_responsavel   |         4 |        4 |
+| orgao_parceiro             |        16 |       16 |
+| beneficiario               |       250 |      250 |
+| trabalho                   |       242 |      242 |
+| composicao_familiar        |       509 |      509 |
+| referencia_familiar        |       261 |      261 |
+| atendimento                |       727 |      727 |
+| encaminhamento_atendimento |       233 |      233 |
+| pia                        |        42 |       42 |
+| produto                    |        13 |       13 |
+| recebimento_doacao         |        19 |       19 |
+| item_recebimento           |        51 |       51 |
+| entrega_cesta              |       237 |      237 |
+| saida_estoque              |       106 |      106 |
+| voluntario                 |         8 |        8 |
+| evento                     |         8 |        8 |
+| participacao_evento        |       356 |      356 |
+| voluntario_evento          |        21 |       21 |
+| log_acesso                 |       209 |      209 |
++----------------------------+-----------+----------+
+profissional_responsavel: 4 (esperado 4)
+orgao_parceiro: 16 (esperado 16)
+beneficiario: 250 (esperado 250)
+trabalho: 242 (esperado 242)
+composicao_familiar: 509 (esperado 509)
+referencia_familiar: 261 (esperado 261)
+atendimento: 727 (esperado 727)
+encaminhamento_atendimento: 233 (esperado 233)
+pia: 42 (esperado 42)
+produto: 13 (esperado 13)
+recebimento_doacao: 19 (esperado 19)
+item_recebimento: 51 (esperado 51)
+entrega_cesta: 237 (esperado 237)
+saida_estoque: 106 (esperado 106)
+voluntario: 8 (esperado 8)
+evento: 8 (esperado 8)
+participacao_evento: 356 (esperado 356)
+voluntario_evento: 21 (esperado 21)
+log_acesso: 209 (esperado 209)
