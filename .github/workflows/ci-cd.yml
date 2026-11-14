@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 22
       - name: Testes da documentação
-        run: npm test 2>&1 | tee test.log
+        run: node --test .github/tests/docs.test.js 2>&1 | tee test.log
       - name: Guardar o log dos testes
         if: always()
         uses: actions/upload-artifact@v4
@@ -57,8 +57,8 @@ jobs:
 
       - name: script.sql — seções 1 a 7 (estrutura, massa, JOIN, UPDATE/DELETE, consultas G e A)
         run: |
-          echo "== docs/script.sql" >> banco.log
-          $MYSQL --table < docs/script.sql 2>&1 | sed "/password on the command line/d" | tee resultado-consultas.txt
+          echo "== SQL/script.sql" >> banco.log
+          $MYSQL --table < SQL/script.sql 2>&1 | sed "/password on the command line/d" | tee resultado-consultas.txt
           head -60 resultado-consultas.txt >> banco.log
 
       - name: Conferir os registros depois do script (seção 6 apaga 2 linhas e o trigger grava 2 logs)
@@ -91,8 +91,8 @@ jobs:
 
       - name: massa-dados.sql — recarregar a massa e conferir a quantidade por tabela
         run: |
-          echo "== docs/massa-dados.sql" >> banco.log
-          $MYSQL --table < docs/massa-dados.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
+          echo "== SQL/massa-dados.sql" >> banco.log
+          $MYSQL --table < SQL/massa-dados.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
           falhou=0
           while read -r tabela esperado; do
             real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela" 2>/dev/null)

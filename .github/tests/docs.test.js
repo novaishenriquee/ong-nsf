@@ -6,12 +6,12 @@ const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const raiz = __dirname;
+const raiz = path.resolve(__dirname, "..", "..");
 const ler = (arquivo) => fs.readFileSync(path.join(raiz, arquivo), "utf8");
 
 const readme = ler("README.md");
 const dicionario = ler("dicionario.md");
-const script = ler("docs/script.sql");
+const script = ler("SQL/script.sql");
 
 // Contato de quem atendeu o grupo: o modelo da entrega exige nome e telefone
 const CONTATOS_EXIGIDOS = ["(11) 96972-4382"];
@@ -48,11 +48,11 @@ test("os arquivos do modelo de entrega existem", () => {
   const obrigatorios = [
     "README.md",
     "dicionario.md",
-    "diagrama-der.png",
-    "modelo-logico.png",
+    "diagrama-der.jpg",
+    "modelo-logico.jpg",
     "levantamento/levantamento.md",
-    "docs/script.sql",
-    "docs/massa-dados.sql",
+    "SQL/script.sql",
+    "SQL/massa-dados.sql",
   ];
   for (const arquivo of obrigatorios) {
     assert.ok(fs.existsSync(path.join(raiz, arquivo)), "faltando: " + arquivo);
@@ -126,7 +126,7 @@ test("links e imagens relativos apontam para arquivos e âncoras que existem", (
 });
 
 test("as imagens não estão vazias", () => {
-  const imagens = ["diagrama-der.png", "modelo-logico.png",
+  const imagens = ["diagrama-der.jpg", "modelo-logico.jpg",
     ...fs.readdirSync(path.join(raiz, "levantamento")).filter((n) => /\.(png|jpe?g)$/i.test(n)).map((n) => "levantamento/" + n)];
   for (const img of imagens) {
     const tamanho = fs.statSync(path.join(raiz, img)).size;
