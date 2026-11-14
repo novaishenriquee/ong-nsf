@@ -1,9 +1,12 @@
 {
   "name": "ong-nsf",
   "version": "1.0.0",
-  "description": "Modelagem de dados da Organização Social Nossa Senhora de Fátima",
+  "description": "Banco de dados da Organização Social Nossa Senhora de Fátima: documentação, modelos e scripts MySQL 8.0",
   "private": true,
   "scripts": {
     "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -1,0 +1,17 @@
+flowchart TD
+    subgraph P12 ["P12 Prestação de contas"]
+        direction TB
+        A[Fim do mês ou do bimestre] --> B["Consultas gerenciais<br/>G01 a G13"]
+        B --> C["Relatório para CRAS/SAS,<br/>Prefeitura e doadores"]
+        A --> D["Consultas de auditoria<br/>A01 a A13"]
+        D --> E{Achou irregularidade?}
+        E -- Sim --> F[Corrigir o registro e<br/>orientar a equipe]
+        E -- Não --> C
+        F --> C
+    end
+    subgraph P13 ["P13 Ciclo de vida dos dados (LGPD)"]
+        direction TB
+        G["Leitura ou alteração de dado<br/>pessoal, sensível ou sigiloso"] --> H[("LOG_ACESSO<br/>quem, quando, qual tabela")]
+        I{"5 anos sem atendimento<br/>ou pedido do titular?"} -- Sim --> J["Anonimizar o cadastro<br/>situacao_cadastro = ANONIMIZADO"]
+        J --> H
+    end

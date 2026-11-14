@@ -1,0 +1,19 @@
+flowchart TD
+    A([Doação chega à ONG]) --> B{Parceiro já cadastrado?}
+    B -- Não --> C["Cadastrar ORGAO_PARCEIRO<br/>tipo e papel DOADOR"]
+    B -- Sim --> D
+    C --> D["P07 Registrar RECEBIMENTO_DOACAO<br/>parceiro, data e técnico que conferiu"]
+    D --> E["Conferir cada item:<br/>prazo de validade e embalagem"]
+    E --> F{Vencido ou danificado?}
+    F -- Não --> G["ITEM_RECEBIMENTO<br/>produto, quantidade e validade"]
+    F -- Sim --> H["Recusar ou dar baixa no mesmo dia<br/>SAIDA_ESTOQUE motivo DESCARTE_VALIDADE"]
+    G --> I[("Saldo por produto<br/>view v_estoque_produto")]
+    H --> I
+    I --> J{Saldo abaixo do mínimo?}
+    J -- Sim --> K["Pedir reposição aos parceiros<br/>(consulta G11)"]
+    J -- Não --> L
+    K --> L["P08 Saída de estoque<br/>o que vence primeiro sai primeiro"]
+    L --> M["Montagem de cesta<br/>MONTAGEM_CESTA"]
+    L --> N["Item extra junto da cesta<br/>ENTREGA_FAMILIA"]
+    L --> O["Perecível distribuído no dia<br/>DISTRIBUICAO_IMEDIATA"]
+    N --> P(["Entrega à família<br/>ver fluxo de atendimento, P06"])

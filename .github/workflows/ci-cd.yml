@@ -2,17 +2,98 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 jobs:
+  # Testes da documentação: arquivos, links, âncoras, imagens,
+  # dicionário x script, regras citadas e ausência de dados pessoais.
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       - run: npm test
+
+  # Roda os três scripts num MySQL 8.0 limpo, na ordem do README.
+  banco:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      MYSQL: mysql -h 127.0.0.1 -P 3306 -uroot -proot --default-character-set=utf8mb4
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Versão do MySQL
+        run: $MYSQL -N -e "SELECT VERSION();"
+
+      - name: 01 — estrutura (tabelas, índices, view e trigger)
+        run: $MYSQL < docs/sql/01_estrutura.sql
+
+      - name: 02 — massa de dados
+        run: $MYSQL --table < docs/sql/02_massa_dados.sql
+
+      - name: Conferir a quantidade de registros por tabela
+        run: |
+          falhou=0
+          while read -r tabela esperado; do
+            real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela")
+            echo "$tabela: $real (esperado $esperado)"
+            [ "$real" = "$esperado" ] || falhou=1
+          done <<'LISTA'
+          profissional_responsavel 4
+          orgao_parceiro 16
+          beneficiario 250
+          trabalho 242
+          composicao_familiar 509
+          referencia_familiar 261
+          atendimento 727
+          encaminhamento_atendimento 233
+          pia 42
+          produto 13
+          recebimento_doacao 19
+          item_recebimento 51
+          entrega_cesta 237
+          saida_estoque 106
+          voluntario 8
+          evento 8
+          participacao_evento 356
+          voluntario_evento 21
+          log_acesso 209
+          LISTA
+          exit $falhou
+
+      - name: Conferir que nenhum produto tem saldo negativo
+        run: |
+          negativos=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.v_estoque_produto WHERE saldo < 0")
+          echo "produtos com saldo negativo: $negativos"
+          [ "$negativos" = "0" ]
+
+      - name: 03 — consultas (JOIN, UPDATE/DELETE, G01–G13, A01–A13)
+        run: $MYSQL --table < docs/sql/03_consultas.sql | tee resultado-consultas.txt
+
+      - name: Conferir que o trigger gravou o log das alterações
+        run: |
+          logs=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.log_acesso WHERE tabela_afetada = 'beneficiario' AND id_registro IN (3, 41) AND operacao IN ('ALTERACAO', 'ANONIMIZACAO') AND data_hora >= CURDATE()")
+          echo "linhas de log criadas pelo trigger: $logs"
+          [ "$logs" = "2" ]
+
+      - name: Guardar o resultado das consultas
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultado-consultas
+          path: resultado-consultas.txt
