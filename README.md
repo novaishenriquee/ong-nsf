@@ -369,7 +369,7 @@ O GitHub Actions roda os três arquivos, nesta ordem, num MySQL 8.0 limpo a cada
 | Ferramenta | Claude (Anthropic), pelo app do Claude |
 | Pedido | Arrumar o repositório para ficar completo como o do grupo, com imagens, e aplicar as correções da issue do professor |
 | Resposta recebida | Proposta de 6 entidades novas (órgão parceiro, produto, item de recebimento, saída de estoque, voluntário, evento) mais 2 associativas e o log; reescrita do dicionário com governança; DER e modelo lógico gerados a partir do script; fluxogramas; 18 regras com o local onde o banco garante cada uma; casos irregulares na massa para cada auditoria; testes e CI com MySQL 8.0 |
-| O que foi conferido | Os três scripts rodam em sequência num MySQL 8.0 limpo no GitHub Actions; a contagem de cada tabela bate com a esperada; cada auditoria encontra o caso irregular plantado; os testes conferem links, imagens, as 19 entidades do dicionário e a ausência de dados pessoais |
+| O que foi conferido | Os três scripts foram executados do zero, em sequência, num banco compatível com MySQL, sem erro; a contagem de cada tabela bateu com a esperada; cada auditoria encontrou o caso irregular plantado. O GitHub Actions repete a execução num MySQL 8.0 a cada push, e os testes conferem links, imagens, as 19 entidades do dicionário e a ausência de dados pessoais |
 | O que foi ajustado | Três `CHECK` reescritos em forma `AND`/`OR`, mais portável; o modelo lógico passou a ser gerado do script para não divergir do desenho |
 | Por que esta ferramenta na versão final | Ela consegue executar o SQL e gerar os diagramas a partir do mesmo script, o que mantém dicionário, desenhos e banco iguais. As decisões de escopo continuam sendo do grupo e estão na seção 9 |
 
