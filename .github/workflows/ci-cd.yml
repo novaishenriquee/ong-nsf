@@ -2,6 +2,7 @@ name: CI/CD
 
 on:
   push:
+    branches-ignore: [ci-resultado]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -11,16 +12,29 @@ jobs:
   # dicionário x script, regras citadas e ausência de dados pessoais.
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: npm test
+      - name: Testes da documentação
+        run: npm test 2>&1 | tee test.log
+      - name: Guardar o log dos testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-test
+          path: test.log
 
   # Roda os três scripts num MySQL 8.0 limpo, na ordem do README.
   banco:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     services:
       mysql:
         image: mysql:8.0
@@ -39,20 +53,25 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Versão do MySQL
-        run: $MYSQL -N -e "SELECT VERSION();"
+        run: $MYSQL -N -e "SELECT VERSION();" 2>&1 | sed "/password on the command line/d" | tee banco.log
 
       - name: 01 — estrutura (tabelas, índices, view e trigger)
-        run: $MYSQL < docs/sql/01_estrutura.sql
+        run: |
+          echo "== 01_estrutura.sql" >> banco.log
+          $MYSQL < docs/sql/01_estrutura.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
 
       - name: 02 — massa de dados
-        run: $MYSQL --table < docs/sql/02_massa_dados.sql
+        run: |
+          echo "== 02_massa_dados.sql" >> banco.log
+          $MYSQL --table < docs/sql/02_massa_dados.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
 
       - name: Conferir a quantidade de registros por tabela
         run: |
+          echo "== conferência de registros" >> banco.log
           falhou=0
           while read -r tabela esperado; do
-            real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela")
-            echo "$tabela: $real (esperado $esperado)"
+            real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela" 2>/dev/null)
+            echo "$tabela: $real (esperado $esperado)" | tee -a banco.log
             [ "$real" = "$esperado" ] || falhou=1
           done <<'LISTA'
           profissional_responsavel 4
@@ -79,21 +98,69 @@ jobs:
 
       - name: Conferir que nenhum produto tem saldo negativo
         run: |
-          negativos=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.v_estoque_produto WHERE saldo < 0")
-          echo "produtos com saldo negativo: $negativos"
+          negativos=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.v_estoque_produto WHERE saldo < 0" 2>/dev/null)
+          echo "produtos com saldo negativo: $negativos" | tee -a banco.log
           [ "$negativos" = "0" ]
 
       - name: 03 — consultas (JOIN, UPDATE/DELETE, G01–G13, A01–A13)
-        run: $MYSQL --table < docs/sql/03_consultas.sql | tee resultado-consultas.txt
+        run: |
+          echo "== 03_consultas.sql" >> banco.log
+          $MYSQL --table < docs/sql/03_consultas.sql 2>&1 | sed "/password on the command line/d" | tee resultado-consultas.txt
+          tail -5 resultado-consultas.txt >> banco.log
 
       - name: Conferir que o trigger gravou o log das alterações
         run: |
-          logs=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.log_acesso WHERE tabela_afetada = 'beneficiario' AND id_registro IN (3, 41) AND operacao IN ('ALTERACAO', 'ANONIMIZACAO') AND data_hora >= CURDATE()")
-          echo "linhas de log criadas pelo trigger: $logs"
+          logs=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.log_acesso WHERE tabela_afetada = 'beneficiario' AND id_registro IN (3, 41) AND operacao IN ('ALTERACAO', 'ANONIMIZACAO') AND data_hora >= CURDATE()" 2>/dev/null)
+          echo "linhas de log criadas pelo trigger: $logs" | tee -a banco.log
           [ "$logs" = "2" ]
 
-      - name: Guardar o resultado das consultas
+      - name: Guardar o log e o resultado das consultas
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: resultado-consultas
-          path: resultado-consultas.txt
+          name: log-banco
+          path: |
+            banco.log
+            resultado-consultas.txt
+
+  # Grava o resumo da última execução na branch "ci-resultado",
+  # para conferir o resultado sem abrir a aba Actions.
+  resultado:
+    needs: [test, banco]
+    if: always() && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          path: logs
+          merge-multiple: true
+
+      - name: Publicar o resumo na branch ci-resultado
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          mkdir saida && cd saida
+          {
+            echo "# Resultado da última execução do CI"
+            echo
+            echo "| Item | Valor |"
+            echo "| :--- | :--- |"
+            echo "| Branch | \`${GITHUB_REF_NAME}\` |"
+            echo "| Commit | \`${GITHUB_SHA}\` |"
+            echo "| Execução | ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID} |"
+            echo "| Job test (documentação) | **${{ needs.test.result }}** |"
+            echo "| Job banco (MySQL 8.0) | **${{ needs.banco.result }}** |"
+          } > RESULTADO.md
+          cp ../logs/* . 2>/dev/null || true
+          git init -q -b ci-resultado
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Resultado do CI para ${GITHUB_SHA::7} (${GITHUB_REF_NAME})"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ci-resultado
