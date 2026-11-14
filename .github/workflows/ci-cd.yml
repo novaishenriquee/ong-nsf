@@ -29,7 +29,7 @@ jobs:
           name: log-test
           path: test.log
 
-  # Roda os três scripts num MySQL 8.0 limpo, na ordem do README.
+  # Roda o script.sql e a massa-dados.sql num MySQL 8.0 limpo.
   banco:
     runs-on: ubuntu-latest
     defaults:
@@ -55,19 +55,44 @@ jobs:
       - name: Versão do MySQL
         run: $MYSQL -N -e "SELECT VERSION();" 2>&1 | sed "/password on the command line/d" | tee banco.log
 
-      - name: 01 — estrutura (tabelas, índices, view e trigger)
+      - name: script.sql — seções 1 a 7 (estrutura, massa, JOIN, UPDATE/DELETE, consultas G e A)
         run: |
-          echo "== 01_estrutura.sql" >> banco.log
-          $MYSQL < docs/sql/01_estrutura.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
+          echo "== docs/script.sql" >> banco.log
+          $MYSQL --table < docs/script.sql 2>&1 | sed "/password on the command line/d" | tee resultado-consultas.txt
+          head -60 resultado-consultas.txt >> banco.log
 
-      - name: 02 — massa de dados
+      - name: Conferir os registros depois do script (seção 6 apaga 2 linhas e o trigger grava 2 logs)
         run: |
-          echo "== 02_massa_dados.sql" >> banco.log
-          $MYSQL --table < docs/sql/02_massa_dados.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
+          echo "== conferência depois do script.sql" >> banco.log
+          falhou=0
+          while read -r tabela esperado; do
+            real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela" 2>/dev/null)
+            echo "$tabela: $real (esperado $esperado)" | tee -a banco.log
+            [ "$real" = "$esperado" ] || falhou=1
+          done <<'LISTA'
+          beneficiario 250
+          encaminhamento_atendimento 232
+          referencia_familiar 260
+          log_acesso 211
+          LISTA
+          exit $falhou
 
-      - name: Conferir a quantidade de registros por tabela
+      - name: Conferir que o trigger gravou o log das alterações
         run: |
-          echo "== conferência de registros" >> banco.log
+          logs=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.log_acesso WHERE tabela_afetada = 'beneficiario' AND id_registro IN (3, 41) AND operacao IN ('ALTERACAO', 'ANONIMIZACAO') AND data_hora >= CURDATE()" 2>/dev/null)
+          echo "linhas de log criadas pelo trigger: $logs" | tee -a banco.log
+          [ "$logs" = "2" ]
+
+      - name: Conferir que nenhum produto tem saldo negativo
+        run: |
+          negativos=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.v_estoque_produto WHERE saldo < 0" 2>/dev/null)
+          echo "produtos com saldo negativo: $negativos" | tee -a banco.log
+          [ "$negativos" = "0" ]
+
+      - name: massa-dados.sql — recarregar a massa e conferir a quantidade por tabela
+        run: |
+          echo "== docs/massa-dados.sql" >> banco.log
+          $MYSQL --table < docs/massa-dados.sql 2>&1 | sed "/password on the command line/d" | tee -a banco.log
           falhou=0
           while read -r tabela esperado; do
             real=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.$tabela" 2>/dev/null)
@@ -95,24 +120,6 @@ jobs:
           log_acesso 209
           LISTA
           exit $falhou
-
-      - name: Conferir que nenhum produto tem saldo negativo
-        run: |
-          negativos=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.v_estoque_produto WHERE saldo < 0" 2>/dev/null)
-          echo "produtos com saldo negativo: $negativos" | tee -a banco.log
-          [ "$negativos" = "0" ]
-
-      - name: 03 — consultas (JOIN, UPDATE/DELETE, G01–G13, A01–A13)
-        run: |
-          echo "== 03_consultas.sql" >> banco.log
-          $MYSQL --table < docs/sql/03_consultas.sql 2>&1 | sed "/password on the command line/d" | tee resultado-consultas.txt
-          tail -5 resultado-consultas.txt >> banco.log
-
-      - name: Conferir que o trigger gravou o log das alterações
-        run: |
-          logs=$($MYSQL -N -e "SELECT COUNT(*) FROM ong_nossa_senhora_fatima.log_acesso WHERE tabela_afetada = 'beneficiario' AND id_registro IN (3, 41) AND operacao IN ('ALTERACAO', 'ANONIMIZACAO') AND data_hora >= CURDATE()" 2>/dev/null)
-          echo "linhas de log criadas pelo trigger: $logs" | tee -a banco.log
-          [ "$logs" = "2" ]
 
       - name: Guardar o log e o resultado das consultas
         if: always()
