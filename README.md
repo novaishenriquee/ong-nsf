@@ -1,9 +1,26 @@
+<div align="center">
+
+<img src=".github/capa.jpg" alt="Banco de Dados da ONG: Organização Social Nossa Senhora de Fátima" width="100%">
+
 # Banco de Dados da Organização Social Nossa Senhora de Fátima
 
-**Entrega 2 — Do modelo ao banco: modelo lógico, implementação SQL e apresentação final.**
-Modelagem de Banco de Dados · Turmas de 2026-2 · Prof. Cid Andrade
+### Entrega 2 — Do modelo ao banco: modelo lógico, implementação SQL e apresentação final
+
+**Modelagem de Banco de Dados** · Prof. Cid Andrade · Turmas de 2026-2 · Trabalho em grupo · UNICID 2026
+
+[![Vídeo de apresentação](https://img.shields.io/badge/Vídeo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/smOM2vWxMVs?is=0PQ62R1Ruaz3v9Fb)
+[![Script SQL](https://img.shields.io/badge/Script-SQL%2Fscript.sql-4479A1?style=for-the-badge)](SQL/script.sql)
+[![Dicionário](https://img.shields.io/badge/Dicionário-dicionario.md-555555?style=for-the-badge)](dicionario.md)
 
 [![CI/CD](https://github.com/novaishenrique/projeto-banco-de-dados-ong/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/novaishenrique/projeto-banco-de-dados-ong/actions/workflows/ci-cd.yml)
+![MySQL](https://img.shields.io/badge/MySQL_8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![brModelo](https://img.shields.io/badge/Modelagem-brModelo-2E7D32?style=flat-square)
+![LGPD](https://img.shields.io/badge/LGPD-dados_fict%C3%ADcios-0B1437?style=flat-square)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+
+</div>
+
+---
 
 | Integrante | RGM | Usuário no GitHub |
 | :--- | :--- | :--- |
@@ -618,6 +635,7 @@ A massa está na seção 4 do `script.sql` e, separada, em [`SQL/massa-dados.sql
 
 ```
 .
+├── .github/                ← capa do README, testes automáticos e CI/CD
 ├── SQL/
 │   ├── script.sql          ← script completo (seções 1 a 7)
 │   └── massa-dados.sql     ← massa de dados separada
@@ -692,3 +710,11 @@ Todos os integrantes participam e estão presentes; cada pergunta da banca é re
 - ELMASRI, Ramez; NAVATHE, Shamkant B. **Sistemas de Banco de Dados.** 7. ed. São Paulo: Pearson, 2018.
 - ORACLE. **MySQL 8.0 Reference Manual.** Disponível em: https://dev.mysql.com/doc/refman/8.0/en/.
 - ORGANIZAÇÃO SOCIAL NOSSA SENHORA DE FÁTIMA. **Ficha de cadastro e atendimento** e entrevista concedida ao grupo. São Paulo, 2026.
+
+---
+
+<div align="center">
+
+<sub>Banco de Dados da ONG · Modelagem de Banco de Dados · Gestão da Tecnologia da Informação · UNICID 2026</sub>
+
+</div>
