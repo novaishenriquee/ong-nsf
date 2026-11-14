@@ -1,9 +1,68 @@
 -- =====================================================================
--- 02_massa_dados.sql — massa de dados FICTÍCIA e coerente (MySQL 8.0+)
--- Rode depois do 01_estrutura.sql. Explicação completa em docs/massa-de-dados.md.
+-- massa-dados.sql — massa de dados FICTÍCIA e coerente (MySQL 8.0+)
+--
+-- É a mesma massa da seção 4 do script.sql, separada para recarregar
+-- os dados sem recriar o banco (por exemplo, depois dos UPDATE e DELETE
+-- da seção 6). Precisa que o script.sql já tenha sido rodado uma vez.
+-- O arquivo apaga os dados atuais (filha antes da mãe) e insere de novo.
+-- Critérios, volumes e casos irregulares: seção 4 do README.
 -- =====================================================================
 USE ong_nossa_senhora_fatima;
 SET NAMES utf8mb4;
+
+-- Limpa as tabelas na ordem inversa das FKs (o trigger não dispara em DELETE)
+DELETE FROM log_acesso;
+DELETE FROM voluntario_evento;
+DELETE FROM participacao_evento;
+DELETE FROM evento;
+DELETE FROM voluntario;
+DELETE FROM saida_estoque;
+DELETE FROM entrega_cesta;
+DELETE FROM item_recebimento;
+DELETE FROM recebimento_doacao;
+DELETE FROM produto;
+DELETE FROM pia;
+DELETE FROM encaminhamento_atendimento;
+DELETE FROM atendimento;
+DELETE FROM referencia_familiar;
+DELETE FROM composicao_familiar;
+DELETE FROM trabalho;
+DELETE FROM beneficiario;
+DELETE FROM orgao_parceiro;
+DELETE FROM profissional_responsavel;
+
+-- Nenhum nome, CPF, NIS, RG, endereço ou telefone pertence a pessoa real.
+-- Os nomes da equipe técnica também são fictícios.
+--
+-- VOLUME — justificado pelo porte (seção 1.1 do README)
+--   * ~250 famílias atendidas fixamente  -> 250 beneficiários
+--   * lote de 150 cestas a cada 2 meses  -> 2 lotes (01/07 e 01/09/2026)
+--     cestas entregues: 151 no bimestre jul-ago e 149 no set-out
+--     (critério simulado: 2 cestas para famílias com 4+ pessoas)
+--   * doações esporádicas (Banco de Alimentos, Cidade Invisível,
+--     particulares e paróquia) -> 19 recebimentos no total
+--   * equipe: 1 assistente social, 2 técnicos voluntários (CRESS/CRP)
+--     e a presidência
+-- PERÍODO — operação simulada de 01/07 a 30/10/2026 (2 bimestres).
+--   Atendimentos anteriores = histórico digitalizado das fichas em papel.
+--
+-- CASOS IRREGULARES INCLUÍDOS DE PROPÓSITO (para a auditoria não voltar vazia)
+--   A01 entregas lançadas antes da 1ª triagem       (RN03)
+--   A02 entregas a famílias fora do critério RN06   (exceções a justificar)
+--   A03 duas entregas no mesmo mês para a mesma família (RN06)
+--   A04 CadÚnico "ativo" sem atualização há mais de 24 meses (RN06)
+--   A05 cadastros sem atendimento há mais de 5 anos e ainda ATIVOS (RN07)
+--   A06 consentimento LGPD registrado depois do 1º atendimento (RN07)
+--   A07 família com 6 membros e família com 4 referências (RN10)
+--   A08 registros feitos pela presidência, sem CRESS/CRP (RN11)
+--   A09 bimestre jul-ago com 151 cestas entregues para 150 recebidas (RN13)
+--   A10 lote de enlatados recebido já vencido na campanha da paróquia (RN09)
+--   A11 oficina com 23 inscritos para 20 vagas (RN16)
+--   A12 voluntária que atuou num evento antes do termo de adesão (RN15)
+--   A13 acessos de voluntário e da presidência a dados sensíveis/sigilosos (RN02, RN17)
+--
+-- Inserir os dados 2 vezes dá erro de chave duplicada — é o esperado.
+-- Para recarregar só os dados, use docs/massa-dados.sql.
 
 -- ---------------------------------------------------------------------
 -- orgao_parceiro (1.11) — doadores e rede de encaminhamento (sem CNPJ: dados fictícios)
@@ -43,42 +102,6 @@ INSERT INTO produto (id_produto, nome, categoria, unidade_medida, estoque_inicia
   (11, 'Kit de higiene', 'HIGIENE', 'unidade', 10, 5),
   (12, 'Kit de limpeza', 'LIMPEZA', 'unidade', 10, 5),
   (13, 'Material escolar (kit)', 'ESCOLAR', 'unidade', 10, 5);
-
--- =====================================================================
--- 4. INSERT INTO — massa de dados FICTÍCIA e coerente
--- =====================================================================
--- Nenhum nome, CPF, NIS, RG, endereço ou telefone pertence a pessoa real.
--- Os nomes da equipe técnica também são fictícios.
---
--- VOLUME — justificado pelo porte levantado na E1
---   * ~250 famílias atendidas fixamente  -> 250 beneficiários
---   * lote de 150 cestas a cada 2 meses  -> 2 lotes (01/07 e 01/09/2026)
---     cestas entregues: 151 no bimestre jul-ago e 149 no set-out
---     (critério simulado: 2 cestas para famílias com 4+ pessoas)
---   * doações esporádicas (Banco de Alimentos, Cidade Invisível,
---     particulares e paróquia) -> 19 recebimentos no total
---   * equipe: 1 assistente social, 2 técnicos voluntários (CRESS/CRP)
---     e a presidência
--- PERÍODO — operação simulada de 01/07 a 30/10/2026 (2 bimestres).
---   Atendimentos anteriores = histórico digitalizado das fichas em papel.
---
--- CASOS IRREGULARES INCLUÍDOS DE PROPÓSITO (para a auditoria não voltar vazia)
---   A01 entregas lançadas antes da 1ª triagem       (RN03)
---   A02 entregas a famílias fora do critério RN06   (exceções a justificar)
---   A03 duas entregas no mesmo mês para a mesma família (RN06)
---   A04 CadÚnico "ativo" sem atualização há mais de 24 meses (RN06)
---   A05 cadastros sem atendimento há mais de 5 anos e ainda ATIVOS (RN07)
---   A06 consentimento LGPD registrado depois do 1º atendimento (RN07)
---   A07 família com 6 membros e família com 4 referências (RN10)
---   A08 registros feitos pela presidência, sem CRESS/CRP (RN11)
---   A09 bimestre jul-ago com 151 cestas entregues para 150 recebidas (RN13)
---   A10 lote de enlatados recebido já vencido na campanha da paróquia (RN09)
---   A11 oficina com 23 inscritos para 20 vagas (RN16)
---   A12 voluntária que atuou num evento antes do termo de adesão (RN15)
---   A13 acessos de voluntário e da presidência a dados sensíveis/sigilosos (RN02, RN17)
---
--- Inserir os dados 2 vezes dá erro de chave duplicada — é o esperado.
--- Para repetir, rode de novo o 01_estrutura.sql e depois este arquivo.
 
 -- ---------------------------------------------------------------------
 -- Tabela profissional_responsavel (dicionário 1.7)
