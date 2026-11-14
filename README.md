@@ -3,7 +3,7 @@
 **Entrega 2 — Do modelo ao banco: modelo lógico, implementação SQL e apresentação final.**
 Modelagem de Banco de Dados · Turmas de 2026-2 · Prof. Cid Andrade
 
-[![CI/CD](https://github.com/novaishenrique/ong-nsf/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/novaishenrique/ong-nsf/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/novaishenrique/projeto-banco-de-dados-ong/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/novaishenrique/projeto-banco-de-dados-ong/actions/workflows/ci-cd.yml)
 
 | Integrante | RGM | Usuário no GitHub |
 | :--- | :--- | :--- |
