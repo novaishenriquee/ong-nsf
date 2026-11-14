@@ -6,7 +6,9 @@
 
 ### Entrega 2 — Do modelo ao banco: modelo lógico, implementação SQL e apresentação final
 
-**Modelagem de Banco de Dados** · Prof. Cid Andrade · Turmas de 2026-2 · Trabalho em grupo · UNICID 2026
+**Modelagem de Banco de Dados** · Prof. Cid Rodrigues · 2º semestre · UNICID 2026
+
+<sub>Entrega 2 · Turmas de 2026-2 · Trabalho em grupo</sub>
 
 [![Vídeo de apresentação](https://img.shields.io/badge/Vídeo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/smOM2vWxMVs?is=0PQ62R1Ruaz3v9Fb)
 [![Script SQL](https://img.shields.io/badge/Script-SQL%2Fscript.sql-4479A1?style=for-the-badge)](SQL/script.sql)
