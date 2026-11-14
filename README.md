@@ -13,7 +13,7 @@ Modelagem de Banco de Dados · Turmas de 2026-2 · Prof. Cid Andrade
 | Mateus Alves dos Santos | 47435887 | [mateusalvesantos2025-dev](https://github.com/mateusalvesantos2025-dev) |
 | Washington de Souza Silva | 49080156 | [washingtondesouzasilva1980-collab](https://github.com/washingtondesouzasilva1980-collab) |
 
-**Vídeo de apresentação da Entrega 1:** [defesa do modelo e consultas no MySQL Workbench](https://youtu.be/smOM2vWxMVs).
+**▶️ Vídeo de apresentação:** [defesa do modelo lógico, do papel ao banco de dados, com a demonstração das consultas no MySQL Workbench](https://youtu.be/smOM2vWxMVs?is=0PQ62R1Ruaz3v9Fb).
 
 > 📌 A organização da Entrega 1 é real (Caso A): o grupo continua com ela e revisou o DER a partir da [correção do professor](https://github.com/mateusalvesantos2025-dev/projeto-banco-de-dados-ong/issues/1). Repositório da Entrega 1: [projeto-banco-de-dados-ong](https://github.com/mateusalvesantos2025-dev/projeto-banco-de-dados-ong).
 >
